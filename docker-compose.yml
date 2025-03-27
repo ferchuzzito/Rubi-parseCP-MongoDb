@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: ruby_mongo_app
+    depends_on:
+      - mongo
+    command: ruby parse_cp.rb
+    networks:
+      - ruby_mongo_network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongoRuby
+    ports:
+      - "27017:27017"
+    networks:
+      - ruby_mongo_network
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
+    name: mongo-data
+networks:
+  ruby_mongo_network:
+    driver: bridge
